@@ -1,18 +1,75 @@
-import { Box } from "./Box";
+import { Component } from 'react';
+import shortid from 'shortid';
 
-export const App = () => {
-  return (
-    <Box as="main"
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      My Phonebook
-    </Box>
-  );
-};
+import { Box } from './Box';
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
+
+import { initialContacts } from 'constants';
+
+export class App extends Component {
+  state = {
+    contacts: initialContacts,
+    filter: '',
+  };
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact => {
+      return contact.name.toLowerCase().includes(filter.toLowerCase());
+    });
+  };
+
+  addContact = ({ name, number }) => {
+    this.setState(prevState => ({
+      contacts: [
+        ...prevState.contacts,
+        {
+          id: shortid.generate(),
+          name,
+          number,
+        },
+      ],
+    }));
+  };
+
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId)
+    }));
+  };
+
+  updateFilter = e => {
+    this.setState({ filter: e.target.value });
+  };
+
+  render() {
+    const filteredContacts = this.getFilteredContacts();
+    return (
+      <Box
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          // fontSize: 40,
+          // color: '#010101',
+        }}
+      >
+        <h1>Phonebook</h1>
+        <ContactForm
+          contacts={this.state.contacts}
+          onSubmit={this.addContact}
+        ></ContactForm>
+        <h2>Contacts</h2>
+        <Filter name={this.state.filter} onChange={this.updateFilter}></Filter>
+        <ContactList
+          contacts={filteredContacts}
+          onDeleteContact={this.deleteContact}
+        ></ContactList>
+      </Box>
+    );
+  }
+}
