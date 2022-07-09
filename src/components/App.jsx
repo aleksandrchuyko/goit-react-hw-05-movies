@@ -10,9 +10,28 @@ import { initialContacts } from 'constants';
 
 export class App extends Component {
   state = {
-    contacts: initialContacts,
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    let savedContacts = localStorage.getItem('contacts');
+    savedContacts = JSON.parse(savedContacts);
+
+    if (savedContacts) {
+      return this.setState({ contacts: savedContacts });
+    }
+    this.setState({ contacts: initialContacts });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const actContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (actContacts !== prevContacts) {
+      localStorage.setItem('contacts', JSON.stringify(actContacts));
+    }
+  }
 
   getFilteredContacts = () => {
     const { contacts, filter } = this.state;
