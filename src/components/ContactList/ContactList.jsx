@@ -1,5 +1,6 @@
 import { Box } from 'components/Box';
 import { Contact } from 'components/Contact/Contact';
+import PropTypes from 'prop-types';
 
 export const ContactList = ({ contacts , onDeleteContact}) => {
   return (
@@ -19,3 +20,12 @@ export const ContactList = ({ contacts , onDeleteContact}) => {
     </Box>
   );
 };
+
+ContactList.propTypes = {
+  contacts: PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+  }).isRequired,
+  onDeleteContact: PropTypes.func.isRequired,
+}

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { Box } from 'components/Box';
 
@@ -66,4 +67,12 @@ export class ContactForm extends Component {
       </Box>
     );
   }
+}
+
+ContactForm.propTypes = {
+  contacts: PropTypes.exact({
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+  }).isRequired,
 }

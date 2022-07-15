@@ -18,7 +18,7 @@ export class App extends Component {
     let savedContacts = localStorage.getItem('contacts');
     savedContacts = JSON.parse(savedContacts);
 
-    if (savedContacts) {
+    if (savedContacts.length) {
       return this.setState({ contacts: savedContacts });
     }
     this.setState({ contacts: initialContacts });
