@@ -2,7 +2,7 @@ import { Box } from 'components/Box';
 import { Contact } from 'components/Contact/Contact';
 import PropTypes from 'prop-types';
 
-export const ContactList = ({ contacts , onDeleteContact}) => {
+export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
     <Box>
       <ul>
@@ -12,7 +12,7 @@ export const ContactList = ({ contacts , onDeleteContact}) => {
               id={contact.id}
               name={contact.name}
               number={contact.number}
-              onDeleteContact ={onDeleteContact}
+              onDeleteContact={onDeleteContact}
             ></Contact>
           </li>
         ))}
@@ -22,10 +22,12 @@ export const ContactList = ({ contacts , onDeleteContact}) => {
 };
 
 ContactList.propTypes = {
-  contacts: PropTypes.exact({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-  }).isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.string,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onDeleteContact: PropTypes.func.isRequired,
-}
+};
